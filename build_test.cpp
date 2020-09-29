@@ -9,8 +9,8 @@
 // Used in Assignment 2, Exercise A
 
 // Includes for code to be tested
-#include "build.hpp"      // For function build
-#include "build.hpp"      // Double inclusion test
+#include "build.h"      // For function build
+#include "build.h"      // Double inclusion test
 
 // Includes for testing package & code common to all test programs
 #include <iostream>     // for std::cout, std::endl, std::cin
