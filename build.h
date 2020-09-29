@@ -4,11 +4,10 @@
 
 // Header file for build().
 
-#ifndef CS_411_BUILD_H
-#define CS_411_BUILD_H
+#ifndef _BUILD_H_
+#define _BUILD_H_
 #include<vector>
 
-using Bridge = std::vector<int>;
-int build(int w, int e, const std::vector<Bridge> & bridges);
+auto build(int w, int e, const std::vector<std::vector<int>> & bridges) -> int;
 
-#endif //CS_411_BUILD_H
+#endif //_BUILD_H_
