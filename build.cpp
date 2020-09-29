@@ -2,8 +2,8 @@
 // Theng Yang
 // 9/28/2020
 
-// A file that contain the definition for build(): a function that
-// solve the west and east bridges' max toll  problem.
+// A file that contain the definition of build(): a function that
+// solve the west and east bridges' max tolls  problem.
 
 // The algorithm for generating the subsets of possible bridges
 // in generateSubsets() is taken from Dr. Hartman
@@ -60,16 +60,23 @@ auto generateSubsets(int n, const vector<bridge>& bridges) -> vector<bridge> {
     return subsets;
 }
 
-int build(int w, int e, const vector<bridge> & test) {
+// Given a number of west cities and east cities and
+// a vector of bridges, return the maximum tolls
+// collected from the buildable bridges.
+int build(int w, int e, const vector<bridge> & bridges) {
 
-    auto subsets = generateSubsets(test.size(), test);
+    // w and e are not used in this implementation
+    // because all the bridges can be found in the
+    // vector of bridges.
+
+    auto subsets = generateSubsets(bridges.size(), bridges);
 
     int maxToll = 0;
     for (auto const & set: subsets) {
         int toll = 0;
 
         for (auto const & item : set) {
-            toll += test[item][2];
+            toll += bridges[item][2];
         }
 
         if (toll > maxToll) {
