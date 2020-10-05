@@ -16,6 +16,28 @@ using std::vector;
 
 using bridge = vector<int>;
 
+// function that check bridge cannot be build.
+// Return true when the a cross or cities are the same; false otherwise.
+auto noBuild(int wC, int eC, const vector<int> & bridgeIDX,
+                             const vector<bridge> & bridges) -> bool{
+
+   for( const auto & item: bridgeIDX ){
+
+       if ( (wC > bridges[item][0] &&   // check if bridges cross
+             eC< bridges[item][1])  ||
+            (wC< bridges[item][0] &&
+             eC> bridges[item][1]) ||
+
+            (wC == bridges[item][0] || // check if cities are the same
+             eC == bridges[item][1]) ){
+
+           return true;
+       }
+   }
+
+   return false;
+}
+
 // Given a number n and a vector of bridges, generate a list of possible subsets from
 // 0 to n that correspond to the subsets of buildable bridges, and return it.
 auto generateSubsets(int n, const vector<bridge>& bridges) -> vector<bridge> {
@@ -25,36 +47,16 @@ auto generateSubsets(int n, const vector<bridge>& bridges) -> vector<bridge> {
     }
 
     auto subsets = generateSubsets(n - 1, bridges);
-
     auto howMany = subsets.size();
-    bool skip = false;
     auto track = subsets;
 
     for (int i = 0; i < howMany; ++i) {
 
-        for (auto const & item:track[i]) {
-
-            if ( (bridges[n - 1][0] > bridges[item][0] &&   // check if bridges cross
-                  bridges[n - 1][1] < bridges[item][1])  ||
-                  (bridges[n - 1][0] < bridges[item][0] &&
-                  bridges[n - 1][1] > bridges[item][1]) ||
-
-                  (bridges[n - 1][0] == bridges[item][0] || // check if cities are the same
-                  bridges[n - 1][1] == bridges[item][1]) ){
-
-                  skip = true;
-                  break;
-            }
-        }
-
-        if (!skip) {
+        if (!noBuild(bridges[n - 1][0],bridges[n - 1][1], track[i], bridges )) {
             subsets.push_back(subsets[i]);
             subsets.back().push_back(n - 1);
         }
-        else {
-            skip = false;
-            subsets.push_back(subsets[i]);
-        }
+
     }
 
     return subsets;
@@ -63,7 +65,7 @@ auto generateSubsets(int n, const vector<bridge>& bridges) -> vector<bridge> {
 // Given a number of west cities and east cities and
 // a vector of bridges, return the maximum tolls
 // collected from the buildable bridges.
-int build(int w, int e, const vector<bridge> & bridges) {
+auto build(int w, int e, const vector<bridge> & bridges) ->int {
 
     // w and e are not used in this implementation
     // because all the bridges can be found in the
@@ -72,10 +74,10 @@ int build(int w, int e, const vector<bridge> & bridges) {
     auto subsets = generateSubsets(bridges.size(), bridges);
 
     int maxToll = 0;
-    for (auto const & set: subsets) {
+    for (const auto & set: subsets) {
         int toll = 0;
 
-        for (auto const & item : set) {
+        for (const auto & item : set) {
             toll += bridges[item][2];
         }
 
