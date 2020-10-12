@@ -18,6 +18,8 @@
 // stableMerge
 // Merge two halves of a sequence, each sorted, into a single sorted
 // sequence in the same location. Merge is done in a stable manner.
+// Theng Y. addition counts the number of inversion.
+
 // Requirements on Types:
 //     FDIter is a forward iterator type.
 //     The value type of FDIter has default ctor, dctor, copy=,
@@ -30,7 +32,7 @@
 //     [first, last) contains the same items as it did initially, but
 //      now sorted by < (in a stable manner).
 template <typename FDIter>
-void stableMerge(FDIter first, FDIter middle, FDIter last, int & cross)
+auto stableMerge(FDIter first, FDIter middle, FDIter last) ->int
 {
     // ** C++03:
     using Value = typename std::iterator_traits<FDIter>::value_type;
@@ -41,19 +43,17 @@ void stableMerge(FDIter first, FDIter middle, FDIter last, int & cross)
     FDIter in2 = middle;        // Read location in 2nd half
     auto out = buffer.begin();  // Write location in buffer
 
+    int inversion = 0;
+
     // Merge two sorted lists into a single list in buff.
-//    int cross = 0;
     while (in1 != middle && in2 != last)
     {
         if (*in2 < *in1) { // Must do comparison this way, to be stable.
             *out++ = *in2++;
-
-            cross += std::distance(in1, middle); // count the inversions
-
+            inversion += std::distance(in1, middle); // count the inversions (added by Theng Y.)
         }
         else {
             *out++ = *in1++;
-
         }
     }
 
@@ -65,13 +65,16 @@ void stableMerge(FDIter first, FDIter middle, FDIter last, int & cross)
 
     // Copy buffer contents back to original sequence location.
     copy(buffer.begin(), buffer.end(), first);
-  //  return cross;
+
+    return inversion;
 }
 
 
 
 // mergeSort
 // Sorts a sequence, using Merge Sort.
+// Theng Y. modifications count the number of inversion using merge sort.
+
 // Recursive.
 // Requirements on Types:
 //     FDIter is a forward iterator type.
@@ -84,35 +87,34 @@ void stableMerge(FDIter first, FDIter middle, FDIter last, int & cross)
 //     [first, last) contains the same items as it did initially,
 //      but now sorted by < (in a stable manner)
 template <typename FDIter>
-void mergeSort(FDIter first, FDIter last, int & cross)
+auto mergeSort(FDIter first, FDIter last) ->int
 {
     // Compute size of sequence
     size_t size = std::distance(first, last);
-   // int cross = 0;
+    int inversion = 0;
     // BASE CASE
     if (size <= 1)
-        return;
+        return 0;
 
     // RECURSIVE CASE
     FDIter middle = first;
     std::advance(middle, size / 2);  // middle is iterator to middle of range
 
     // Recursively sort the two lists
-    mergeSort(first, middle, cross);
-    mergeSort(middle, last, cross);
+    inversion += mergeSort(first, middle);
+    inversion += mergeSort(middle, last);
 
     // And merge them
 
-    stableMerge(first, middle, last, cross);
+    inversion += stableMerge(first, middle, last);
 
-   // return cross;
+    return inversion;
 }
 
 template<typename Iter>
-size_t inversions(Iter first, Iter last){
-    auto num = 0;
-    mergeSort(first, last, num);
-    return num;
+auto inversions(Iter first, Iter last) -> size_t {
+    auto inversionCount = mergeSort(first, last);
+    return inversionCount;
 }
 
 #endif //INVERSION_INVERSIONS_HPP
