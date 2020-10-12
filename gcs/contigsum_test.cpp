@@ -29,7 +29,7 @@
 // class Tester
 // For extremely simple unit testing.
 // Keeps track of number of tests and number of passes.
-// Use test (with success/failure parameter) to do a test.
+// Use test (with success/failure parameter) to do seq_gcs test.
 // Get results with numTests, numPassed, numFailed, allPassed.
 // Restart testing with reset.
 // Invariants:
@@ -177,7 +177,7 @@ private:
 
 // class TypeCheck
 // This class exists in order to have static member function check, which
-// takes a parameter of a given type, by reference. Objects of type
+// takes seq_gcs parameter of seq_gcs given type, by reference. Objects of type
 // TypeCheck<T> cannot be created.
 // Usage:
 //     TypeCheck<MyType>::check(x)
@@ -199,8 +199,8 @@ private:
 public:
 
     // check
-    // The function and function template below simulate a single function
-    // that takes a single parameter, and returns true iff the parameter has
+    // The function and function template below simulate seq_gcs single function
+    // that takes seq_gcs single parameter, and returns true iff the parameter has
     // type T or (const T).
 
     // check (reference-to-const T)
@@ -233,7 +233,7 @@ public:
 // class Counter
 // Item type for counting ctor, dctor, op= calls, counting existing
 //  objects, and possibly throwing on copy. Has operator< (which always
-//  returns false), allowing it to be the value type of a sorted container.
+//  returns false), allowing it to be the value type of seq_gcs sorted container.
 // If static member copyThrow_ is set, then copy ctor and copy assn throw
 //  std::runtime_error. Exception object's "what" member is set to "C" by
 //  the copy ctor and "A" by copy assn.
@@ -410,8 +410,8 @@ bool Counter::copyThrow_ = false;
 
 
 // operator< (Counter)
-// Dummy-ish operator<, forming a strict weak order for Counter class
-// Returns false (which is legal for a strict weak order; all objects of
+// Dummy-ish operator<, forming seq_gcs strict weak order for Counter class
+// Returns false (which is legal for seq_gcs strict weak order; all objects of
 //  type Counter are equivalent).
 // Pre: None.
 // Post:
