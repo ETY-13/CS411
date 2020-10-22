@@ -23,13 +23,10 @@ auto noBuild(int wC, int eC, const vector<int> & bridgeIDX,
 
    for( const auto & item: bridgeIDX ){
 
-       if ( (wC > bridges[item][0] &&   // check if bridges cross
-             eC< bridges[item][1])  ||
-            (wC< bridges[item][0] &&
-             eC> bridges[item][1]) ||
-
-            (wC == bridges[item][0] || // check if cities are the same
-             eC == bridges[item][1]) ){
+       if ( (wC >= bridges[item][0] &&   // check if bridges cross
+             eC<= bridges[item][1])  ||
+            (wC<= bridges[item][0] &&
+             eC>= bridges[item][1])) {
 
            return true;
        }

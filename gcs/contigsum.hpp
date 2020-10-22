@@ -6,8 +6,8 @@
 // Contain functions contigSum and ComputeGCS.
 // Given a sequence of number, returns the GCS of the sequence.
 
-#ifndef GCS_CONTIGSUM_HPP
-#define GCS_CONTIGSUM_HPP
+#ifndef CONTIGSUM_HPP
+#define CONTIGSUM_HPP
 
 #include<iterator>
 #include<algorithm>
@@ -58,4 +58,4 @@ auto contigSum(Iter first, Iter last) -> int{
     auto gcs = computeGCS(first, last);
     return std::max(0, gcs.seq_gcs);
 }
-#endif //GCS_CONTIGSUM_HPP
+#endif //CONTIGSUM_HPP

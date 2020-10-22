@@ -8,8 +8,8 @@
 // Functions mergeSort and stableMerge are originally implemented by Dr. Glenn Chappell,
 // it is modified slightly to act as helper functions for counting inversions.
 
-#ifndef INVERSION_INVERSIONS_HPP
-#define INVERSION_INVERSIONS_HPP
+#ifndef INVERSIONS_HPP
+#define INVERSIONS_HPP
 
 #include<iterator>
 #include<vector>
@@ -70,7 +70,6 @@ auto stableMerge(FDIter first, FDIter middle, FDIter last) ->int
 }
 
 
-
 // mergeSort
 // Sorts a sequence, using Merge Sort.
 // Theng Y. modifications count the number of inversion using merge sort.
@@ -111,10 +110,12 @@ auto mergeSort(FDIter first, FDIter last) ->int
     return inversion;
 }
 
+// A function that call on mergeSort to counts the
+// number of inversion in a given sequence of numbers.
 template<typename Iter>
 auto inversions(Iter first, Iter last) -> size_t {
     auto inversionCount = mergeSort(first, last);
     return inversionCount;
 }
 
-#endif //INVERSION_INVERSIONS_HPP
+#endif //INVERSIONS_HPP
