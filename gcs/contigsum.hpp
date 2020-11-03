@@ -28,12 +28,10 @@ auto computeGCS(iter first, iter last) -> calculatedData {
     auto seqLen = std::distance(first, last);
 
     if(seqLen == 0){
-        calculatedData zeroGCS;
-        return zeroGCS;
+        return {};
     }
     if (seqLen == 1) {
-        calculatedData seqGCS{*first, *first, *first, *first };
-        return seqGCS;
+        return {*first, *first, *first, *first };
     }
 
     auto left = computeGCS(first, first + (seqLen / 2));
@@ -50,12 +48,27 @@ auto computeGCS(iter first, iter last) -> calculatedData {
     return wholeSeq;
 }
 
+// Solve the GCS by storing the sum of the n-1
+// sequence.
+template<typename iter>
+auto dynamic_GCS(iter first, iter last)->int{
+
+    int sub_sum = 0;
+    int gcs = 0;
+
+    for(auto i = first; i < last; i++){
+        sub_sum = std::max(sub_sum + *i, 0);
+        gcs = std::max(sub_sum, gcs);
+    }
+    return gcs;
+}
+
+
 // A function that use a helper function to calculate the GCS
 // of a sequence of numbers. Returns the GCS.
 template<typename Iter>
 auto contigSum(Iter first, Iter last) -> int{
-   
-    auto gcs = computeGCS(first, last);
-    return std::max(0, gcs.seq_gcs);
+
+    return dynamic_GCS(first, last);
 }
 #endif //CONTIGSUM_HPP
