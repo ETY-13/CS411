@@ -1,6 +1,6 @@
 // huffcode.hpp
 // Theng Yang
-// 2020-11-25
+// 2020-11-30
 
 #ifndef HUFFCODE_HPP
 #define HUFFCODE_HPP
@@ -11,7 +11,7 @@
 
 struct Node{
     Node(char character, int weight);
-    Node(int weight);
+    explicit Node(int weight);
 
     std::shared_ptr<Node> _right_;
     std::shared_ptr<Node> _left_;
@@ -24,8 +24,8 @@ struct Node{
 class HuffCode{
 public:
     void setWeights(const std::unordered_map<char, int> & theweights);
-    std::string encode(const std::string & text) const;
-    std::string decode(const std::string & codestr) const;
+    [[nodiscard]] auto encode(const std::string & text) const -> std::string;
+    [[nodiscard]] auto decode(const std::string & codestr) const -> std::string;
 private:
     std::shared_ptr<Node> _tree_;
 };
