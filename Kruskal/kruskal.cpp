@@ -1,6 +1,8 @@
-//
+// kruskal.cpp
 // Theng Yang
-//
+// 12/13/2020
+
+// Source file for kruskal: a simple implementation of Kruskal's algorithm.
 
 #include "kruskal.hpp"
 
@@ -17,6 +19,7 @@ simpleUnionFind::simpleUnionFind(const graphs &graph) {
 
 }
 
+// Set all the vertices in a set into another set.
  void  simpleUnionFind::resetSet(int value, int newValue) {
 
      for(auto & tree :_tree_){
@@ -26,6 +29,7 @@ simpleUnionFind::simpleUnionFind(const graphs &graph) {
      }
 }
 
+// A function that join vertices together with a given edge
  void simpleUnionFind::join(const std::string &edge, int set) {
 
      if( _tree_[edge[0]] == -1 && _tree_[edge[1]] == -1){
@@ -47,14 +51,18 @@ simpleUnionFind::simpleUnionFind(const graphs &graph) {
 
 }
 
+// A function that checks if an edge will create a cycle.
 auto simpleUnionFind::isAcylic(const std::string &edge)  {
 
+    // cycle exists if the vertices are in the same set
     if(_tree_[edge[0]] == -1 || _tree_[edge[1]] == -1){
         return true;
     }
     return (_tree_[edge[0]] != _tree_[edge[1]]);
 }
 
+// A function that given a weighted graph,
+// returns a minimum spanning tree.
 auto kruskal (const graphs & graph)-> graphs{
 
     auto setCounter = 0;

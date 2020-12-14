@@ -1,3 +1,9 @@
+// test.cpp
+// Theng Yang
+// 12/13/2020
+
+// A simple test file for Kruskal's algorithm
+
 #include "kruskal.hpp"
 
 #include <iostream>
@@ -27,7 +33,7 @@ TEST_CASE ("Initial Test Of Kruskal Algorithm: ") {
     }
 
     SUBCASE("Small Test -- Graph with four edges"){
-        graph.insert({1,"ab"});
+        graph.insert({1, "ab"});
         graph.insert({2, "ac"});
         graph.insert({3, "bd"});
         graph.insert({4, "cd"});
@@ -36,6 +42,7 @@ TEST_CASE ("Initial Test Of Kruskal Algorithm: ") {
         REQUIRE(spanningTree == kruskal(graph));
     }
 }
+
 TEST_CASE("Medium Test:"){
     graphs graph;
     graphs spanningTree;
