@@ -10,7 +10,7 @@ using std::multimap;
 #include<string>
 using std::string;
 
-[[maybe_unused]] // A function that print
+[[maybe_unused]] // A function that print the items in a set
 void printList(const headNode& head) {
     cout << "Total Elements: " << *head._totalElements_ << endl;
     cout << "The elements are: ";
@@ -22,6 +22,7 @@ void printList(const headNode& head) {
     cout << endl;
 }
 
+// Kruskal's algorithm--making use of quickfind.
 auto krusal(const multimap<int, string> & graph)->multimap<int, string> {
 
     multimap<int, string> spanningTree;
