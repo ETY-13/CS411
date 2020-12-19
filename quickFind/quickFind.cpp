@@ -1,63 +1,63 @@
-//
-// Created by snowf on 12/13/2020.
-//
+// quickFind.cpp
+// Theng Yang
+// 2020.12.18
+
 #include"quickFind.hpp"
 using std::make_shared;
 
-node::node(int x): _vertex_(x) {};
+node::node(int x): _vertex_(x) {}
 
-headNode::headNode(int x): _totalElements_(x) {};
-
+// Make a set for the given input
 void QuickFind::makeset(int x) {
-    if(index_holder.size() <= x ){
-        index_holder.resize(x+1);
-    }
-    for(auto i = 0; i<index_holder.size(); i++){
-        if(index_holder[i]._totalElements_ == 0){
-            index_holder[i] ={};
+
+    if(_index_holder_.size() <= x ){
+        _index_holder_.resize(x + 1);
+        for(auto & i : _index_holder_){
+            if(i._totalElements_ == nullptr){
+                i ={};
+            }
         }
     }
 
-
-    headNode head(x);
+    headNode head;
     auto n  = make_shared<node>(x);
-    head._totalElements_ = 1;
+    head._totalElements_ = make_shared<int>(1);
     head._first_ = n;
     head._last_ = n;
-    index_holder[x] = head;
-
+    _index_holder_[x] = head;
 }
 
+// Find the set that contains the input
 auto QuickFind::find(int x) -> headNode {
-    if(index_holder.size() <= x){
+    if(_index_holder_.size() <= x){
         return {};
     }
-    return index_holder[x];
+    return _index_holder_[x];
 }
 
+// Make two distinct sets that contain the two
+// respective inputs
 void QuickFind::merge(int x, int y) {
+    auto *front = &_index_holder_[x];
+    auto *bottom = &_index_holder_[y];
 
-    auto front = index_holder[x];
-    auto bottom = index_holder[y];
-
-   if (front._totalElements_ < bottom._totalElements_) {
-       front = index_holder[y];
-       bottom = index_holder[x];
+    // Append the smaller set to the bigger set
+    if (front->_totalElements_ < bottom->_totalElements_) {
+       front = &_index_holder_[y];
+       bottom = &_index_holder_[x];
     }
 
-    if (front._first_->_vertex_ != bottom._first_->_vertex_) {
-        front._last_->_next_ = bottom._first_;
-        front._totalElements_ = front._totalElements_ + bottom._totalElements_;
+    if (front->_first_->_vertex_ != bottom->_first_->_vertex_) {
+        front->_last_->_next_ = bottom->_first_;
+        *front->_totalElements_ = *front->_totalElements_ + *bottom->_totalElements_;
 
-        front._last_ = bottom._last_;
-        auto start = bottom._first_;
+        front->_last_ = bottom->_last_;
+        auto start = bottom->_first_;
 
+        // set all the indices in _index_holder_ to point to the new set
         while (start != nullptr) {
-
-            index_holder[start->_vertex_] = front;
+            _index_holder_[start->_vertex_] = *front;
             start = start->_next_;
-
         }
-        index_holder[x] = front;
     }
 }
