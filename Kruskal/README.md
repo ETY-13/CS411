@@ -3,7 +3,7 @@ which takes a multimap<int, string> that represents a weighted graph.
 The function returns a multimap<int, string> that represents the minimum spanning tree.
 kruskal() is defined in kruskal.hpp. 
 
-When calling kruskal(), a Union-Find data structure must be specified, such as 'kruskal<quickFind>'.
+When calling kruskal(), a Union-Find data structure must be specified, such as kruskal<quickUnion>.
  
 There are three simple Union-Find data structures (simpleUnionFind, quickFind, quickUnion) that are
 decleared in unionFind.hpp and defined in simpleUnionFind.cpp, quickFind.cpp, quickUnion.cpp, respectively.
