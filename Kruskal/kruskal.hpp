@@ -1,30 +1,44 @@
 // kruskal.hpp
 // Theng Yang
-// 12/13/2020
+// 2020.12.26
 
-// header file for kruskal
+#ifndef UnionFind_KRUSKAL_HPP
+#define UnionFind_KRUSKAL_HPP
 
-#ifndef _KRUSKAL_HPP_
-#define _KRUSKAL_HPP_
+#include "unionFind.hpp"
 
 #include<map>
-#include<unordered_map>
-#include<string>
 
-using graphs = std::multimap<int, std::string>;
-using tree = std::unordered_map<char, int>;
+// Kruskal's algorithm--making use of UnionFind data structures
+// Static assertion:
+//  kruskal must be called with an UnionFind data structure
+//  as datatype -- either SimpleUnionFind, QuickFind, or QuickUnion.
+template<typename unionFind>
+auto kruskal(const std::multimap<int, std::string> & graph)->std::multimap<int, std::string> {
+    // Cause compile error if no UnionFind data structure was specified
+    static_assert(std::is_base_of<SimpleUnionFind, unionFind>::value, "kruskal<DataType> :: 'DataType' is not a UnionFind");
 
-// A simple data structure that checks for cycles
-// and join vertices together with a given edge.
-struct simpleUnionFind{
-    explicit simpleUnionFind(const graphs & graph);
-    void resetSet(int value, int newValue);
-    void join (const std::string& edge, int set);
-    auto isAcylic(const std::string & edge);
+    std::multimap<int, std::string> spanningTree;
+    unionFind set;
 
-    tree _tree_;
-};
+    for(const auto & edges:graph) {
 
-auto kruskal (const graphs & graph)-> graphs;
+        if (set.noset(edges.second[0])) {
+            set.makeset(edges.second[0]);
+        }
 
-#endif //_KRUSKAL_HPP_
+        if (set.noset(edges.second[1])) {
+            set.makeset((edges.second[1]));
+        }
+
+        if(set.isAcyclic(edges.second[0], edges.second[1])){
+            set.merge(edges.second[0], edges.second[1]);
+            spanningTree.insert(edges);
+        }
+    }
+
+    return spanningTree;
+}
+
+
+#endif //UnionFind_KRUSKAL_HPP
